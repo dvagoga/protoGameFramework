@@ -1,7 +1,54 @@
 //
 var RENDER_TIME = 1000/24;
-var CENTER_POLE_X = 800;
-var CENTER_POLE_Y = 500;
-var GIRD = 4;
-var ACTIVATE_ENEMY_NAME = 'border';
-var ACTIVATE_LEVEL_NAME = 'levelComplete';
+var MOVE_TIME = RENDER_TIME*6;
+var levels = [{'o':[], 'p':[], 'f':[]}];
+
+function level(o, p, f){
+    var objs = o;
+    var param = p;
+    var funcs = f;
+    var done = false;
+	var renderCnt = 0;
+    this.render = function(){
+		renderCnt++;
+		if (renderCnt >= MOVE_TIME){
+			for(var i=0; i<funcs.length; i++){
+				funcs[i];
+			};
+		};
+		this.draw();
+    };
+    this.draw = function(){
+		return 0;
+    }
+};
+
+//create canvas
+var pole = document.getElementById('myCanvas');
+var ctx = pole.getContext("2d");
+
+//user input
+var playerInput = {x:0, y:0};
+pole.addEventListener('click', function(event){
+    var clickX = (event.layerX == undefined ? event.offsetX : event.layerX) + 1;
+    var clickY = (event.layerY == undefined ? event.offsetY : event.layerY) + 1;
+    playerInput.x = clickX;
+    playerInput.y = clickY;
+    alert(playerInput.x);
+}, false);
+
+//rendering game
+var lvlIndex = 0;
+var currentlevel = new level(levels[lvlIndex].o, levels[lvlIndex].p, levels[lvlIndex].f);
+
+function game(){
+	if(!currentlevel.done){
+		currentlevel.render();
+	}
+	else{
+		lvlIndex++;
+		currentlevel = new level(levels[lvlIndex].o, levels[lvlIndex].p, levels[lvlIndex].f);
+	}
+};
+
+setInterval(game, RENDER_TIME);
