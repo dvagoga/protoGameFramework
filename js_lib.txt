@@ -1,0 +1,71 @@
+//
+walker@!!: open
+function walker(x, y, speed){
+	x = x;
+	y = y;
+	dstX = x;
+	dstY = y;
+	var deltaX = 0.001;
+	var deltaY = 0.001;
+	var dirX = 1;
+	var dirY = 1;
+	speed = speed;
+	this.next = function(){
+		function inRegion(borderA, borderB, point) {
+			var res = false;
+			if (borderA < point && point < borderB) {
+				res = true;
+			};
+			return res;
+		};
+
+		function setCoord(coord, coordDest, coordDir, coordSpeed) {
+
+			var res = 0;
+			if (coord == coordDest){
+				res = coord;
+			} else {
+				var cur = coord + coordDir*Math.round(coordSpeed);
+				if (inRegion(coord, cur, coordDest) || inRegion(cur, coord, coordDest))	{
+					res = coordDest;
+				} else {
+					res = cur;
+				};
+			};
+			return res;
+		};
+
+		var x = setCoord(x, dstX, dirX, deltaX);
+		var y = setCoord(y, dstY, dirY, deltaY);
+		return [x, y]
+	}
+	this.setDst = function(ix, iy){
+		dstX = ix;
+		dstY = iy;
+		// if destination < current position then reverse diriction
+		if (dstX > x) {
+			dirX = 1;
+		} else {
+			dirX = -1;
+		};
+
+		if (dstY > y){
+			dirY = 1;
+		} else {
+			dirY = -1;
+		};
+		//inc step = speed
+		var dx = Math.abs(dstX-x)/speed;
+		var dy = Math.abs(dstY-y)/speed;
+
+		if (dx > dy){
+			deltaX = speed;
+			deltaY = dy*speed/dx;
+		} else {
+			deltaY = speed;
+			deltaX = dx/(dy/speed);
+		};
+	}
+	
+}
+walker@!!: close

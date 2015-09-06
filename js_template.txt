@@ -9,17 +9,20 @@ function level(o, p, f){
     var funcs = f;
     var done = false;
 	var renderCnt = 0;
-    this.render = function(){
+    this.render = function(ctx){
 		renderCnt++;
 		if (renderCnt >= MOVE_TIME){
 			for(var i=0; i<funcs.length; i++){
 				funcs[i];
 			};
 		};
-		this.draw();
+		this.draw(ctx);
     };
-    this.draw = function(){
-		return 0;
+    this.draw = function(canvas){
+		for(var i = 0; i < o.length; i++){
+			for (var spriteIndex = 0; spriteIndex < o[i].pic.length; spriteIndex++ )
+				canvas.drawImage(o[i].pic[spriteIndex].name, o[i].pic[spriteIndex].x-o[i].pic[spriteIndex].width, o[i].pic[spriteIndex].y-o[i].pic[spriteIndex].height);
+		}
     }
 };
 
@@ -41,9 +44,9 @@ pole.addEventListener('click', function(event){
 var lvlIndex = 0;
 var currentlevel = new level(levels[lvlIndex].o, levels[lvlIndex].p, levels[lvlIndex].f);
 
-function game(){
+function game(ctx){
 	if(!currentlevel.done){
-		currentlevel.render();
+		currentlevel.render(ctx);
 	}
 	else{
 		lvlIndex++;
@@ -51,4 +54,4 @@ function game(){
 	}
 };
 
-setInterval(game, RENDER_TIME);
+setInterval(function(){game(ctx)}, RENDER_TIME);
