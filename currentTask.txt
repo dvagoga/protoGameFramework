@@ -1,3 +1,14 @@
 test02
-walker
-move pursuit ndst
+level: 1
+    o: fon walker walker
+    f: move pursuit ndst
+    cell: 0 1
+        p: 0 1
+    cell: 1 2
+        p: 1 1 2
+        p: 2 2
+level: 2
+    o: fon
+    f: cliclFon
+    cell: 0
+        p: 0
