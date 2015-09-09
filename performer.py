@@ -65,9 +65,9 @@ def createJs(fileName):
         for line in newCode:
             jsFile.write(line)
 
-def addJsLib(levels):
+def addJsLib(fileName, levels):
     libCode = []
-    newCode = []
+    newCode = ['/*\n', 'generated library\n', '*/\n']
     selectedNames = []
 
     def getSelectedNames(selectedNames, allNames):
@@ -83,35 +83,33 @@ def addJsLib(levels):
         libIndex = 0
         done = False
         soughtFor = False
-        while libIndex < len(lib) or not done:
-            st = lib[libindex].split
+        lastIndex = len(lib) - 1
+        while libIndex < lastIndex and not done:
+            st = lib[libIndex].split()
+            checkName = st and st[0] == pattern
             if soughtFor:
-                if st[0] == pattern:
+                if checkName:
                     done = True
                 else:
-                    res.append(lib[libindex])
-            if st[0] == pattern:
+                    res.append(lib[libIndex])
+            if checkName:
                 soughtFor = True
             libIndex += 1
         return res
-
-    for l in levels:
-        print(l)
 
     with open(JS_LIBRARY_FILE_NAME, 'r') as jsLibFile:
         libCode = jsLibFile.readlines()
 
     for level in levels:
-        selectedNames += getSelectedNames(selectedNames, level.o) + getSelectedNames(selectedNames, level.f)
+        selectedNames += getSelectedNames(selectedNames, level['o']) + getSelectedNames(selectedNames, level['f'])
 
-    for name in selectedNames:
+    for name in set(selectedNames):
         newCode += codeFoundInLib(libCode, name)
 
-    print(newCode)
-
-    #with open(jsFileName, 'a') as jsFile:
-    #    for line in newCode:
-    #        jsFile.write(line)
+    jsFileName = fileName + '/' + fileName + '.js'
+    with open(jsFileName, 'a') as jsFile:
+        for line in newCode:
+            jsFile.write(line)
 
     
 ############################################################
@@ -121,5 +119,5 @@ task = getTask()
 createFolder(task['name'])
 createHtml(task['name'])
 createJs(task['name'])
-addJsLib(task['level'])
+addJsLib(task['name'], task['level'])
 print('creating ' + task['name'] + ' done.')

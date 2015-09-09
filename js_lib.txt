@@ -1,4 +1,4 @@
-//
+start js_lib
 walker@!!: open
 function walker(x, y, speed){
 	x = x;
@@ -69,3 +69,15 @@ function walker(x, y, speed){
 	
 }
 walker@!!: close
+end js_lib
+walker13@!!: open
+function walker(x, y, speed){
+	x = x;
+	y = y;
+	speed = speed;
+	this.next = function(){
+		return 0;
+	}
+	
+}
+walker13@!!: close
