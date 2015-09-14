@@ -1,30 +1,6 @@
 //
 var RENDER_TIME = 1000/24;
 var MOVE_TIME = RENDER_TIME*6;
-var levels = [{'o':[], 'p':[], 'f':[]}];
-
-function level(o, p, f){
-    var objs = o;
-    var param = p;
-    var funcs = f;
-    var done = false;
-	var renderCnt = 0;
-    this.render = function(ctx){
-		renderCnt++;
-		if (renderCnt >= MOVE_TIME){
-			for(var i=0; i<funcs.length; i++){
-				funcs[i];
-			};
-		};
-		this.draw(ctx);
-    };
-    this.draw = function(canvas){
-		for(var i = 0; i < o.length; i++){
-			for (var spriteIndex = 0; spriteIndex < o[i].pic.length; spriteIndex++ )
-				canvas.drawImage(o[i].pic[spriteIndex].name, o[i].pic[spriteIndex].x-o[i].pic[spriteIndex].width, o[i].pic[spriteIndex].y-o[i].pic[spriteIndex].height);
-		}
-    }
-};
 
 //create canvas
 var pole = document.getElementById('myCanvas');
@@ -37,21 +13,41 @@ pole.addEventListener('click', function(event){
     var clickY = (event.layerY == undefined ? event.offsetY : event.layerY) + 1;
     playerInput.x = clickX;
     playerInput.y = clickY;
-    alert(playerInput.x);
+    console.log(playerInput.x, playerInput.y);
 }, false);
 
-//rendering game
-var lvlIndex = 0;
-var currentlevel = new level(levels[lvlIndex].o, levels[lvlIndex].p, levels[lvlIndex].f);
+level@!!:
+var levelDone = true;
+var levelIndex = 0;
+var f = [];
+var o = [];
+var p = [];
 
-function game(ctx){
-	if(!currentlevel.done){
-		currentlevel.render(ctx);
-	}
-	else{
-		lvlIndex++;
-		currentlevel = new level(levels[lvlIndex].o, levels[lvlIndex].p, levels[lvlIndex].f);
-	}
+function draw(c){
+	for (var i = 0; i < o.length; i++){
+		var img = new Image();
+		img.src = o[i].getPic();
+		var pos = o[i].getXY();
+		c.drawImage(img, pos[0], pos[1]);
+	};
+	
 };
 
-setInterval(function(){game(ctx)}, RENDER_TIME);
+//rendering game
+setInterval(function(){
+	if (levelDone){
+		o = [];
+		f = [];
+		p = [];
+		for (var i = 0; i < level[levelIndex].o.length; i++){
+			typecmp@!!:
+		};
+		f = level[levelIndex].f;
+		levelDone = false;
+	}else{
+		for (var i = 0; i < f.length; i++){
+			funccmp@!!:
+		};
+		draw(ctx);
+	};
+}, RENDER_TIME);

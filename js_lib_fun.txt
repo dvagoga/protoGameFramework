@@ -1,0 +1,33 @@
+start js_lib_fun
+
+td@!!: open
+function td(){
+	return 0;
+}
+td@!!: close
+
+move@!!: open
+function move(){
+	return 0;
+}
+move@!!: close
+
+pursuit@!!: open
+function pursuit(){
+	return 0;
+}
+pursuit@!!: close
+
+ndst@!!: open
+function ndst(){
+	return 0;
+}
+ndst@!!: close
+
+cliclFon@!!: open
+function cliclFon(){
+	return 0;
+}
+cliclFon@!!: close
+
+end js_lib_fun

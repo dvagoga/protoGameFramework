@@ -3,7 +3,8 @@ NAME_REPLACE_CONSTANT = 'name' + NAME_REPLACE_PREFIX
 TASK_FILE_NAME = 'currentTask.txt'
 HTML_TEMPLATE_FILE_NAME = 'html_template.txt'
 JS_TEMPLATE_FILE_NAME = 'js_template.txt'
-JS_LIBRARY_FILE_NAME = 'js_lib.txt'
+JS_OBJ_LIBRARY_FILE_NAME = 'js_lib_obj.txt'
+JS_FUN_LIBRARY_FILE_NAME = 'js_lib_fun.txt'
 
 import os
 
@@ -18,7 +19,7 @@ def getTask():
         if words[0] == 'level:':
             res['level'].append({'o':[], 'f':[], 'cell':[]})
         elif words[0] == 'o:':
-            res['level'][-1]['o'] += words[1:]
+            res['level'][-1]['o'].append({'type':words[1], 'init':words[2:]})
         elif words[0] == 'f:':
             res['level'][-1]['f'] += words[1:]
         elif words[0] == 'cell:':
@@ -50,14 +51,23 @@ def createHtml(fileName):
         for line in newCode:
             htmlFile.write(line)
 
-def createJs(fileName):
+def createJs(fileName, types, funcs, levelConst):
     templateCode = []
     newCode = []
     with open(JS_TEMPLATE_FILE_NAME, 'r') as jsTemplateFile:
         templateCode = jsTemplateFile.readlines()
 
     for line in templateCode:
-        newCode.append(line)
+        if 'typecmp'+NAME_REPLACE_PREFIX in line:
+            for t in types:
+                newCode.append('            if (level[levelIndex].o[i].type == "' + t + '"){o.push(new ' + t + '(level[levelIndex].o[i].init))}\n')
+        elif 'funccmp'+NAME_REPLACE_PREFIX in line:
+            for f in funcs:
+                newCode.append('            if (f[i] == "' + f + '"){' + f + '();}\n')
+        elif 'level'+NAME_REPLACE_PREFIX in line:
+            newCode.append('var level = ' + str(levelConst) + '\n');
+        else:
+            newCode.append(line)
 
     jsFileName = fileName + '/' + fileName + '.js'
 
@@ -66,7 +76,8 @@ def createJs(fileName):
             jsFile.write(line)
 
 def addJsLib(fileName, levels):
-    libCode = []
+    libObjCode = []
+    libFunCode = []
     newCode = ['/*\n', 'generated library\n', '*/\n']
     selectedNames = []
 
@@ -97,14 +108,24 @@ def addJsLib(fileName, levels):
             libIndex += 1
         return res
 
-    with open(JS_LIBRARY_FILE_NAME, 'r') as jsLibFile:
-        libCode = jsLibFile.readlines()
+    with open(JS_OBJ_LIBRARY_FILE_NAME, 'r') as jsLibFile:
+        libObjCode = jsLibFile.readlines()
 
+    with open(JS_FUN_LIBRARY_FILE_NAME, 'r') as jsLibFile:
+        libFunCode = jsLibFile.readlines()
+
+    objs = []
+    funs = []
     for level in levels:
-        selectedNames += getSelectedNames(selectedNames, level['o']) + getSelectedNames(selectedNames, level['f'])
+        for obj in level['o']:
+            objs.append(obj['type'])
+        funs += level['f']
 
-    for name in set(selectedNames):
-        newCode += codeFoundInLib(libCode, name)
+    for name in set(objs):
+        newCode += codeFoundInLib(libObjCode, name)
+
+    for name in set(funs):
+        newCode += codeFoundInLib(libFunCode, name)
 
     jsFileName = fileName + '/' + fileName + '.js'
     with open(jsFileName, 'a') as jsFile:
@@ -115,9 +136,23 @@ def addJsLib(fileName, levels):
 ############################################################
 
 
+#task file parser
 task = getTask()
+
+#create folder
 createFolder(task['name'])
+#create html
 createHtml(task['name'])
-createJs(task['name'])
+#create js
+allPossibleTypes = []
+allPossibleFunctions = []
+jsLevelConst = []
+for l in task['level']:
+    for t in l['o']:
+        allPossibleTypes.append(t['type'])
+    allPossibleFunctions += l['f']
+    jsLevelConst.append({'o':l['o'], 'f':l['f']})
+createJs(task['name'], set(allPossibleTypes), set(allPossibleFunctions), jsLevelConst)
+#modify js
 addJsLib(task['name'], task['level'])
 print('creating ' + task['name'] + ' done.')

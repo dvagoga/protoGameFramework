@@ -1,15 +1,15 @@
 start js_lib
 walker@!!: open
-function walker(x, y, speed){
-	x = x;
-	y = y;
-	dstX = x;
-	dstY = y;
+function walker(inp){
+	var x = inp[0];
+	var y = inp[1];
+	var dstX = inp[0];
+	var dstY = inp[1];
 	var deltaX = 0.001;
 	var deltaY = 0.001;
 	var dirX = 1;
 	var dirY = 1;
-	speed = speed;
+	speed = inp[2];
 	this.next = function(){
 		function inRegion(borderA, borderB, point) {
 			var res = false;
@@ -66,18 +66,26 @@ function walker(x, y, speed){
 			deltaX = dx/(dy/speed);
 		};
 	}
-	
+	this.getPic = function(){
+		img = 'yellowSmile01.png';
+		return img;
+	};
+	this.getXY = function(){
+		return [x, y];
+	};
 }
 walker@!!: close
-end js_lib
-walker13@!!: open
-function walker(x, y, speed){
-	x = x;
-	y = y;
-	speed = speed;
-	this.next = function(){
-		return 0;
-	}
-	
+fon@!!: open
+function fon(){
+	var x = 0;
+	var y = 0;
+	this.getXY = function(){
+		return [x, y];
+	};
+	this.getPic = function(){
+		img = 'fon02.png';
+		return img;
+	};
 }
-walker13@!!: close
+fon@!!: close
+end js_lib
