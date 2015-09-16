@@ -8,21 +8,40 @@ td@!!: close
 
 move@!!: open
 function move(){
-	return 0;
+	for(var parInx = 0; parInx < p.length; parInx++){
+		if (p[parInx].name == 'move'){
+			for (var i = 0 ; i < p[parInx].target.length; i++ ){
+				p[parInx].target[i].move(p[parInx].target[i].next());
+			};
+		p[parInx].target = [];
+		};
+	};
 }
 move@!!: close
 
 pursuit@!!: open
 function pursuit(){
-	return 0;
+	for(var parInx = 0; parInx < p.length; parInx++){
+		if (p[parInx].name == 'pursuit'){
+			for (var i = 0 ; i < p[parInx].target.length; i++ ){
+				p[parInx].target[i][1].setDst(p[parInx].target[i][0].getXY());
+			};
+		};
+	};
 }
 pursuit@!!: close
 
-ndst@!!: open
-function ndst(){
-	return 0;
+playerDst@!!: open
+function playerDst(){
+	for(var parInx = 0; parInx < p.length; parInx++){
+		if (p[parInx].name == 'playerDst'){
+			for (var i = 0 ; i < p[parInx].target.length; i++ ){
+				p[parInx].target[i].setDst([playerInput.x, playerInput.y]);
+			};
+		};
+	};
 }
-ndst@!!: close
+playerDst@!!: close
 
 cliclFon@!!: open
 function cliclFon(){

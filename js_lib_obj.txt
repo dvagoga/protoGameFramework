@@ -39,9 +39,9 @@ function walker(inp){
 		var y = setCoord(y, dstY, dirY, deltaY);
 		return [x, y]
 	}
-	this.setDst = function(ix, iy){
-		dstX = ix;
-		dstY = iy;
+	this.setDst = function(inp){
+		dstX = inp[0];
+		dstY = inp[1];
 		// if destination < current position then reverse diriction
 		if (dstX > x) {
 			dirX = 1;
@@ -66,6 +66,10 @@ function walker(inp){
 			deltaX = dx/(dy/speed);
 		};
 	}
+	this.move = function(inp){
+		x = inp[0];
+		y = inp[1];
+	};
 	this.getPic = function(){
 		img = 'yellowSmile01.png';
 		return img;

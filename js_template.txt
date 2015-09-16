@@ -23,16 +23,6 @@ var f = [];
 var o = [];
 var p = [];
 
-function draw(c){
-	for (var i = 0; i < o.length; i++){
-		var img = new Image();
-		img.src = o[i].getPic();
-		var pos = o[i].getXY();
-		c.drawImage(img, pos[0], pos[1]);
-	};
-	
-};
-
 //rendering game
 setInterval(function(){
 	if (levelDone){
@@ -51,3 +41,21 @@ setInterval(function(){
 		draw(ctx);
 	};
 }, RENDER_TIME);
+// public lib
+function draw(c){
+	for (var i = 0; i < o.length; i++){
+		var img = new Image();
+		img.src = o[i].getPic();
+		var pos = o[i].getXY();
+		c.drawImage(img, pos[0], pos[1]);
+	};
+};
+
+function addParam(i, j){
+	for (var i = 0; i < o.length; i++){
+		var img = new Image();
+		img.src = o[i].getPic();
+		var pos = o[i].getXY();
+		c.drawImage(img, pos[0], pos[1]);
+	};
+};
