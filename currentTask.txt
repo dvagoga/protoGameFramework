@@ -12,5 +12,5 @@ level: 1
 level: 2
     o: fon
     f: cliclFon
-    cell: 0
+    cell: 0 0
         p: 0

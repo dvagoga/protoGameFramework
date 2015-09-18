@@ -25,7 +25,7 @@ def getTask():
         elif words[0] == 'cell:':
             res['level'][-1]['cell'].append({'intersection':words[1:], 'f':[]})
         elif words[0] == 'p:':
-            res['level'][-1]['cell'][-1]['f'].append({'index':words[1], 'operands':words[2:]})
+            res['level'][-1]['cell'][-1]['f'].append({'name':words[1], 'operands':words[2:]})
 
     return res
 
@@ -51,21 +51,34 @@ def createHtml(fileName):
         for line in newCode:
             htmlFile.write(line)
 
-def createJs(fileName, types, funcs, levelConst):
+def createJs(fileName, types, funcs, levelConst, cells):
     templateCode = []
     newCode = []
+    for im in cells:
+        print(im)
     with open(JS_TEMPLATE_FILE_NAME, 'r') as jsTemplateFile:
         templateCode = jsTemplateFile.readlines()
 
     for line in templateCode:
         if 'typecmp'+NAME_REPLACE_PREFIX in line:
             for t in types:
-                newCode.append('            if (level[levelIndex].o[i].type == "' + t + '"){o.push(new ' + t + '(level[levelIndex].o[i].init))}\n')
+                newCode.append('            if (level[levelIndex][i].type == "' + t + '"){o.push(new ' + t + '(level[levelIndex][i].init))}\n')
         elif 'funccmp'+NAME_REPLACE_PREFIX in line:
             for f in funcs:
-                newCode.append('            if (f[i] == "' + f + '"){' + f + '();}\n')
+                newCode.append('            ' + f + '();\n')
         elif 'level'+NAME_REPLACE_PREFIX in line:
             newCode.append('var level = ' + str(levelConst) + '\n');
+        elif 'param'+NAME_REPLACE_PREFIX in line:
+            newCode.append('    p = {"move":[]}\n');
+        elif 'add'+NAME_REPLACE_PREFIX in line:
+            for lvl in range(len(cells)):
+                for c in cells[lvl]:
+                    newCode.append('    if (levelIndex == ' + str(lvl) + ' && x == ' + c['intersection'][0] + ' && y == ' + c['intersection'][1] + '){')
+                    for f in c['f']:
+                        opr = ''
+                        for op in f['operands']:
+                            newCode.append('        p.' + f['name'] + '.push(o[' + op + '])\n')
+                    newCode.append('}\n')
         else:
             newCode.append(line)
 
@@ -147,12 +160,14 @@ createHtml(task['name'])
 allPossibleTypes = []
 allPossibleFunctions = []
 jsLevelConst = []
+intersectionCells = []
 for l in task['level']:
     for t in l['o']:
         allPossibleTypes.append(t['type'])
     allPossibleFunctions += l['f']
-    jsLevelConst.append({'o':l['o'], 'f':l['f']})
-createJs(task['name'], set(allPossibleTypes), set(allPossibleFunctions), jsLevelConst)
+    jsLevelConst.append(l['o'])
+    intersectionCells.append(l['cell'])
+createJs(task['name'], set(allPossibleTypes), set(allPossibleFunctions), jsLevelConst, intersectionCells)
 #modify js
 addJsLib(task['name'], task['level'])
 print('creating ' + task['name'] + ' done.')

@@ -19,7 +19,6 @@ pole.addEventListener('click', function(event){
 level@!!:
 var levelDone = true;
 var levelIndex = 0;
-var f = [];
 var o = [];
 var p = [];
 
@@ -27,17 +26,13 @@ var p = [];
 setInterval(function(){
 	if (levelDone){
 		o = [];
-		f = [];
-		p = [];
-		for (var i = 0; i < level[levelIndex].o.length; i++){
+		param@!!:
+		for (var i = 0; i < level[levelIndex].length; i++){
 			typecmp@!!:
 		};
-		f = level[levelIndex].f;
 		levelDone = false;
 	}else{
-		for (var i = 0; i < f.length; i++){
-			funccmp@!!:
-		};
+		funccmp@!!:
 		draw(ctx);
 	};
 }, RENDER_TIME);
@@ -52,10 +47,5 @@ function draw(c){
 };
 
 function addParam(i, j){
-	for (var i = 0; i < o.length; i++){
-		var img = new Image();
-		img.src = o[i].getPic();
-		var pos = o[i].getXY();
-		c.drawImage(img, pos[0], pos[1]);
-	};
+	//add@!!:
 };
