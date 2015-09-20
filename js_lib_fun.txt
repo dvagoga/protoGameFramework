@@ -1,15 +1,9 @@
 start js_lib_fun
 
-td@!!: open
-function td(){
-	return 0;
-}
-td@!!: close
-
 move@!!: open
 function move(){
-	for (var i = 0 ; i < p.move.length; i++ ){
-		p.move[i].move(p.move[i].next());
+	for (var i = 0 ; i < p.move.length; i++){
+		o[p.move[i]].move(o[p.move[i]].next());
 	};
 	p.move = [];
 }
@@ -17,29 +11,21 @@ move@!!: close
 
 pursuit@!!: open
 function pursuit(){
-/*
-	for(var parInx = 0; parInx < p.length; parInx++){
-		if (p[parInx].name == 'pursuit'){
-			for (var i = 0 ; i < p[parInx].target.length; i++ ){
-				p[parInx].target[i][1].setDst(p[parInx].target[i][0].getXY());
-			};
-		};
+	for (var i = 0 ; i < p.pursuit.length; i++){
+		o[p.pursuit[i][1]].setDst(o[p.pursuit[i][0]].getXY());
 	};
-	*/
 }
 pursuit@!!: close
 
 playerDst@!!: open
 function playerDst(){
-	/*
-	for(var parInx = 0; parInx < p.length; parInx++){
-		if (p[parInx].name == 'playerDst'){
-			for (var i = 0 ; i < p[parInx].target.length; i++ ){
-				p[parInx].target[i].setDst([playerInput.x, playerInput.y]);
-			};
+	for (var i = 0 ; i < p.playerDst.length; i++){
+		if (playerInput.d){
+			o[p.playerDst[i]].setDst([playerInput.x, playerInput.y]);
 		};
 	};
-	*/
+	playerInput.d = false;
+	p.playerDst = [];
 }
 playerDst@!!: close
 

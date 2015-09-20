@@ -1,16 +1,18 @@
 test02
 level: 1
     o: fon
-    o: walker 100 200 1
-    o: walker 200 200 1
+    o: walker 200 200 10 10 1
+    o: walker 100 200 10 10 1
     f: move pursuit playerDst
     cell: 0 1
         p: move 1
-    cell: 1 2
-        p: pursuit 2 1
+    cell: 0 2
+	p: move 2
         p: playerDst 2
+    cell: 1 2
+        p: pursuit 1 2
 level: 2
     o: fon
     f: cliclFon
     cell: 0 0
-        p: 0
+        p: cliclFon 0

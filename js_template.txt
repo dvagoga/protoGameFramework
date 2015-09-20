@@ -1,18 +1,21 @@
 //
 var RENDER_TIME = 1000/24;
 var MOVE_TIME = RENDER_TIME*6;
+var GAME_FIELD_WIDTH = 800;
+var GAME_FIELD_HEIGHT = 500;
 
 //create canvas
 var pole = document.getElementById('myCanvas');
 var ctx = pole.getContext("2d");
 
 //user input
-var playerInput = {x:0, y:0};
+var playerInput = {x:0, y:0, d:false};
 pole.addEventListener('click', function(event){
     var clickX = (event.layerX == undefined ? event.offsetX : event.layerX) + 1;
     var clickY = (event.layerY == undefined ? event.offsetY : event.layerY) + 1;
     playerInput.x = clickX;
     playerInput.y = clickY;
+    playerInput.d = true;
     console.log(playerInput.x, playerInput.y);
 }, false);
 
@@ -32,10 +35,12 @@ setInterval(function(){
 		};
 		levelDone = false;
 	}else{
+		td();
 		funccmp@!!:
 		draw(ctx);
 	};
 }, RENDER_TIME);
+
 // public lib
 function draw(c){
 	for (var i = 0; i < o.length; i++){
@@ -46,6 +51,20 @@ function draw(c){
 	};
 };
 
-function addParam(i, j){
+function td(){
+	for(var i = 0; i < o.length - 1; i++){
+		for(var j = i + 1; j < o.length; j++){
+			var xyi = o[i].getXY();
+			var dimi = o[i].getDim();
+			var xyj = o[j].getXY();
+			var dimj = o[j].getDim();
+			if (Math.abs(xyi[0] - xyj[0]) < Math.abs(dimi[0] / 2 - dimj[0] / 2) || Math.abs(xyi[1] - xyj[1]) < Math.abs(dimi[1] / 2 - dimj[1] / 2)){
+				addParam(i,j);
+			};
+		};
+	};
+}
+
+function addParam(x, y){
 	//add@!!:
 };

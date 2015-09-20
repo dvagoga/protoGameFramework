@@ -1,15 +1,17 @@
 start js_lib
 walker@!!: open
 function walker(inp){
-	var x = inp[0];
-	var y = inp[1];
-	var dstX = inp[0];
-	var dstY = inp[1];
+	var x = parseInt(inp[0]);
+	var y = parseInt(inp[1]);
+	var dstX = parseInt(inp[0]);
+	var dstY = parseInt(inp[1]);
 	var deltaX = 0.001;
 	var deltaY = 0.001;
 	var dirX = 1;
 	var dirY = 1;
-	speed = inp[2];
+	speed = parseInt(inp[4]);
+	var width = parseInt(inp[2]);
+	var height = parseInt(inp[3]);
 	this.next = function(){
 		function inRegion(borderA, borderB, point) {
 			var res = false;
@@ -35,9 +37,9 @@ function walker(inp){
 			return res;
 		};
 
-		var x = setCoord(x, dstX, dirX, deltaX);
-		var y = setCoord(y, dstY, dirY, deltaY);
-		return [x, y]
+		var xc = setCoord(x, dstX, dirX, deltaX);
+		var yc = setCoord(y, dstY, dirY, deltaY);
+		return [xc, yc]
 	}
 	this.setDst = function(inp){
 		dstX = inp[0];
@@ -71,8 +73,11 @@ function walker(inp){
 		y = inp[1];
 	};
 	this.getPic = function(){
-		img = 'yellowSmile01.png';
+		var img = 'yellowSmile01.png';
 		return img;
+	};
+	this.getDim = function(){
+		return [width, height];
 	};
 	this.getXY = function(){
 		return [x, y];
@@ -83,12 +88,17 @@ fon@!!: open
 function fon(){
 	var x = 0;
 	var y = 0;
+	var width = GAME_FIELD_WIDTH;
+	var height = GAME_FIELD_HEIGHT;
+	this.getPic = function(){
+		var img = 'fon02.png';
+		return img;
+	};
+	this.getDim = function(){
+		return [width, height];
+	};
 	this.getXY = function(){
 		return [x, y];
-	};
-	this.getPic = function(){
-		img = 'fon02.png';
-		return img;
 	};
 }
 fon@!!: close
