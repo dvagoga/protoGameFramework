@@ -41,11 +41,11 @@ def createHtml(fileName):
 
     for line in templateCode:
         if NAME_REPLACE_CONSTANT in line:
-            newCode.append(line.replace(NAME_REPLACE_CONSTANT, fileName))
+            newCode.append(line.replace(NAME_REPLACE_CONSTANT, 'index'))
         else:
             newCode.append(line)
 
-    htmlFileName = fileName + '/' + fileName + '.html'
+    htmlFileName = fileName + '/' + 'index.html'
 
     with open(htmlFileName, 'w+', encoding='utf-8') as htmlFile:
         for line in newCode:
@@ -84,7 +84,7 @@ def createJs(fileName, types, funcs, levelConst, cells):
         else:
             newCode.append(line)
 
-    jsFileName = fileName + '/' + fileName + '.js'
+    jsFileName = fileName + '/' + 'index.js'
 
     with open(jsFileName, 'w+', encoding='utf-8') as jsFile:
         for line in newCode:
@@ -142,7 +142,7 @@ def addJsLib(fileName, levels):
     for name in set(funs):
         newCode += codeFoundInLib(libFunCode, name)
 
-    jsFileName = fileName + '/' + fileName + '.js'
+    jsFileName = fileName + '/' + 'index.js'
     with open(jsFileName, 'a') as jsFile:
         for line in newCode:
             jsFile.write(line)

@@ -16,7 +16,6 @@ pole.addEventListener('click', function(event){
     playerInput.x = clickX;
     playerInput.y = clickY;
     playerInput.d = true;
-    console.log(playerInput.x, playerInput.y);
 }, false);
 
 level@!!:
