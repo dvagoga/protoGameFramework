@@ -50,14 +50,20 @@ function draw(c){
 	};
 };
 
+function crossing(xyi, xyj, dimi, dimj){
+	var res = false;
+	res = ((xyi[0]+dimi[0])>=xyj[0] && (xyj[0]+dimj[0])>=xyi[0]) && ((xyi[1]+dimi[1]) >= xyj[1] && (xyj[1]+dimj[1]) >= xyi[1]);
+	return res;
+};
+
 function td(){
 	for(var i = 0; i < o.length - 1; i++){
 		for(var j = i + 1; j < o.length; j++){
-			var xyi = o[i].getXY();
+			var xyi  = o[i].getXY();
 			var dimi = o[i].getDim();
-			var xyj = o[j].getXY();
+			var xyj  = o[j].getXY();
 			var dimj = o[j].getDim();
-			if (Math.abs(xyi[0] - xyj[0]) < Math.abs(dimi[0] / 2 - dimj[0] / 2) || Math.abs(xyi[1] - xyj[1]) < Math.abs(dimi[1] / 2 - dimj[1] / 2)){
+			if (crossing(xyi, xyj, dimi, dimj)){
 				addParam(i,j);
 			};
 		};

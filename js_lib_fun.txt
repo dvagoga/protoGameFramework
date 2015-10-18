@@ -3,7 +3,7 @@ start js_lib_fun
 move@!!: open
 function move(){
 	for (var i = 0 ; i < p.move.length; i++){
-		o[p.move[i]].move(o[p.move[i]].next());
+		o[p.move[i]].step();
 	};
 	p.move = [];
 }

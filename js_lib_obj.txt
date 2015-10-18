@@ -5,14 +5,14 @@ function walker(inp){
 	var y = parseInt(inp[1]);
 	var dstX = parseInt(inp[0]);
 	var dstY = parseInt(inp[1]);
-	var deltaX = 0.001;
-	var deltaY = 0.001;
+	var deltaX = 0.000;
+	var deltaY = 0.000;
 	var dirX = 1;
 	var dirY = 1;
 	speed = parseInt(inp[4]);
 	var width = parseInt(inp[2]);
 	var height = parseInt(inp[3]);
-	this.next = function(){
+	this.nextXY = function(){
 		function inRegion(borderA, borderB, point) {
 			var res = false;
 			if (borderA < point && point < borderB) {
@@ -20,14 +20,14 @@ function walker(inp){
 			};
 			return res;
 		};
-
+		
 		function setCoord(coord, coordDest, coordDir, coordSpeed) {
 
 			var res = 0;
 			if (coord == coordDest){
 				res = coord;
 			} else {
-				var cur = coord + coordDir*Math.round(coordSpeed);
+				var cur = coord + coordDir*coordSpeed;
 				if (inRegion(coord, cur, coordDest) || inRegion(cur, coord, coordDest))	{
 					res = coordDest;
 				} else {
@@ -39,12 +39,17 @@ function walker(inp){
 
 		var xc = setCoord(x, dstX, dirX, deltaX);
 		var yc = setCoord(y, dstY, dirY, deltaY);
+
 		return [xc, yc]
 	}
+	this.next = function(){
+		var c = this.nextXY();
+		return [Math.round(c[0]), Math.round(c[1])];
+	};
 	this.setDst = function(inp){
 		dstX = inp[0];
 		dstY = inp[1];
-		// if destination < current position then reverse diriction
+		// if destination < current position then reverse direction
 		if (dstX > x) {
 			dirX = 1;
 		} else {
@@ -68,9 +73,10 @@ function walker(inp){
 			deltaX = dx/(dy/speed);
 		};
 	}
-	this.move = function(inp){
-		x = inp[0];
-		y = inp[1];
+	this.step = function(){
+		var c = this.nextXY();
+		x = c[0];
+		y = c[1];
 	};
 	this.getPic = function(){
 		var img = 'yellowSmile01.png';
@@ -80,7 +86,7 @@ function walker(inp){
 		return [width, height];
 	};
 	this.getXY = function(){
-		return [x, y];
+		return [Math.round(x), Math.round(y)];
 	};
 }
 walker@!!: close
