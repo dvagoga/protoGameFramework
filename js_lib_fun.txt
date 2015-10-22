@@ -12,7 +12,7 @@ move@!!: close
 pursuit@!!: open
 function pursuit(){
 	for (var i = 0 ; i < p.pursuit.length; i++){
-		o[p.pursuit[i][1]].setDst(o[p.pursuit[i][0]].getXY());
+		o[p.pursuit[i][0]].setDst(o[p.pursuit[i][1]].getXY());
 	};
 }
 pursuit@!!: close
@@ -34,5 +34,14 @@ function cliclFon(){
 	return 0;
 }
 cliclFon@!!: close
+
+nextLevel@!!: open
+function nextLevel(){
+	if (p.nextLevel.length > 0){
+		levelDone = true;
+	};
+	return 0;
+}
+nextLevel@!!: close
 
 end js_lib_fun

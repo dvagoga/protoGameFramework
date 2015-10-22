@@ -3,14 +3,18 @@ level: 1
     o: fon
     o: walker 200 200 10 10 1
     o: walker 100 200 10 10 1
-    f: move pursuit playerDst
+    o: invisible 200 200 10 10 1
+    o: invisible 750 450 10 10 1
+    f: move pursuit playerDst nextLevel
     cell: 0 1
         p: move 1
     cell: 0 2
 	p: move 2
         p: playerDst 2
-    cell: 1 2
+    cell: 1 3
         p: pursuit 1 2
+    cell: 2 4
+        p: nextLevel 2
 level: 2
     o: fon
     f: cliclFon

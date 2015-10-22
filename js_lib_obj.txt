@@ -9,9 +9,10 @@ function walker(inp){
 	var deltaY = 0.000;
 	var dirX = 1;
 	var dirY = 1;
-	speed = parseInt(inp[4]);
+	var speed = parseInt(inp[4]);
 	var width = parseInt(inp[2]);
 	var height = parseInt(inp[3]);
+	var img = 'yellowSmile01.png';
 	this.nextXY = function(){
 		function inRegion(borderA, borderB, point) {
 			var res = false;
@@ -79,7 +80,6 @@ function walker(inp){
 		y = c[1];
 	};
 	this.getPic = function(){
-		var img = 'yellowSmile01.png';
 		return img;
 	};
 	this.getDim = function(){
@@ -96,8 +96,8 @@ function fon(){
 	var y = 0;
 	var width = GAME_FIELD_WIDTH;
 	var height = GAME_FIELD_HEIGHT;
+	var img = 'fon02.png';
 	this.getPic = function(){
-		var img = 'fon02.png';
 		return img;
 	};
 	this.getDim = function(){
@@ -108,4 +108,22 @@ function fon(){
 	};
 }
 fon@!!: close
+invisible@!!: open
+function invisible(inp){
+	var x = parseInt(inp[0]);
+	var y = parseInt(inp[1]);
+	var width = parseInt(inp[2]);
+	var height = parseInt(inp[3]);
+	var img = 'yellowSmile01.png';
+	this.getPic = function(){
+		return img;
+	};
+	this.getDim = function(){
+		return [width, height];
+	};
+	this.getXY = function(){
+		return [x, y];
+	};
+}
+invisible@!!: close
 end js_lib
