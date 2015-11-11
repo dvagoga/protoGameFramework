@@ -1,8 +1,8 @@
 test02
 level: 1
     o: fon
-    o: walker 200 200 10 10 1
-    o: walker 100 200 10 10 1
+    o: Mr_h 200 200 128 128 1
+    o: Mr_n 50 50 32 32 2
     o: invisible 200 200 10 10 1
     o: invisible 750 450 10 10 1
     f: move pursuit playerDst nextLevel

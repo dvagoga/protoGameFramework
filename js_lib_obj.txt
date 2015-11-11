@@ -1,6 +1,7 @@
 start js_lib
-walker@!!: open
-function walker(inp){
+
+Mr_n@!!: open
+function Mr_n(inp){
 	var x = parseInt(inp[0]);
 	var y = parseInt(inp[1]);
 	var dstX = parseInt(inp[0]);
@@ -12,7 +13,10 @@ function walker(inp){
 	var speed = parseInt(inp[4]);
 	var width = parseInt(inp[2]);
 	var height = parseInt(inp[3]);
-	var img = 'yellowSmile01.png';
+	var imgState = 'stay';
+	var imgOldState = 'stay';
+	var imgStateCnt = 0;
+	var img = {"move":['images/Mr_n_0.png', 'images/Mr_n_1.png', 'images/Mr_n_2.png'], "stay":['images/Mr_n_0.png']};
 	this.nextXY = function(){
 		function inRegion(borderA, borderB, point) {
 			var res = false;
@@ -80,7 +84,32 @@ function walker(inp){
 		y = c[1];
 	};
 	this.getPic = function(){
-		return img;
+		var resArray = [];
+
+		if ( Math.round(x) != dstX || Math.round(y) != dstY ){
+			imgState = 'move';
+		} else {
+			imgState = 'stay';
+		};
+
+
+		switch( imgState ){
+			case 'move': resArray = img.move; break;
+			default: resArray = img.stay; break;
+		};
+
+		if ( imgOldState != imgState ){
+			imgStateCnt = 0;
+		}else{
+			imgStateCnt++;
+			if ( imgStateCnt >= resArray.length ){
+				imgStateCnt = 0;
+			};
+		};
+
+		imgOldState = imgState;
+
+		return resArray[imgStateCnt];
 	};
 	this.getDim = function(){
 		return [width, height];
@@ -89,14 +118,133 @@ function walker(inp){
 		return [Math.round(x), Math.round(y)];
 	};
 }
-walker@!!: close
+Mr_n@!!: close
+Mr_h@!!: open
+function Mr_h(inp){
+	var x = parseInt(inp[0]);
+	var y = parseInt(inp[1]);
+	var dstX = parseInt(inp[0]);
+	var dstY = parseInt(inp[1]);
+	var deltaX = 0.000;
+	var deltaY = 0.000;
+	var dirX = 1;
+	var dirY = 1;
+	var speed = parseInt(inp[4]);
+	var width = parseInt(inp[2]);
+	var height = parseInt(inp[3]);
+	var imgState = 'stay';
+	var imgOldState = 'stay';
+	var imgStateCnt = 0;
+	var img = {"move":['images/Mr_h_0.png', 'images/Mr_h_1.png'], "stay":['images/Mr_h_0.png']};
+	this.nextXY = function(){
+		function inRegion(borderA, borderB, point) {
+			var res = false;
+			if (borderA < point && point < borderB) {
+				res = true;
+			};
+			return res;
+		};
+		
+		function setCoord(coord, coordDest, coordDir, coordSpeed) {
+
+			var res = 0;
+			if (coord == coordDest){
+				res = coord;
+			} else {
+				var cur = coord + coordDir*coordSpeed;
+				if (inRegion(coord, cur, coordDest) || inRegion(cur, coord, coordDest))	{
+					res = coordDest;
+				} else {
+					res = cur;
+				};
+			};
+			return res;
+		};
+
+		var xc = setCoord(x, dstX, dirX, deltaX);
+		var yc = setCoord(y, dstY, dirY, deltaY);
+
+		return [xc, yc]
+	}
+	this.next = function(){
+		var c = this.nextXY();
+		return [Math.round(c[0]), Math.round(c[1])];
+	};
+	this.setDst = function(inp){
+		dstX = inp[0];
+		dstY = inp[1];
+		// if destination < current position then reverse direction
+		if (dstX > x) {
+			dirX = 1;
+		} else {
+			dirX = -1;
+		};
+
+		if (dstY > y){
+			dirY = 1;
+		} else {
+			dirY = -1;
+		};
+		//inc step = speed
+		var dx = Math.abs(dstX-x)/speed;
+		var dy = Math.abs(dstY-y)/speed;
+
+		if (dx > dy){
+			deltaX = speed;
+			deltaY = dy*speed/dx;
+		} else {
+			deltaY = speed;
+			deltaX = dx/(dy/speed);
+		};
+	}
+	this.step = function(){
+		var c = this.nextXY();
+		x = c[0];
+		y = c[1];
+	};
+	this.getPic = function(){
+		var resArray = [];
+
+		if ( Math.round(x) != dstX || Math.round(y) != dstY ){
+			imgState = 'move';
+		} else {
+			imgState = 'stay';
+		};
+
+
+		switch( imgState ){
+			case 'move': resArray = img.move; break;
+			default: resArray = img.stay; break;
+		};
+
+		if ( imgOldState != imgState ){
+			imgStateCnt = 0;
+		}else{
+			imgStateCnt++;
+			if ( imgStateCnt >= resArray.length ){
+				imgStateCnt = 0;
+			};
+		};
+
+		imgOldState = imgState;
+
+		return resArray[imgStateCnt];
+	};
+	this.getDim = function(){
+		return [width, height];
+	};
+	this.getXY = function(){
+		return [Math.round(x), Math.round(y)];
+	};
+}
+Mr_h@!!: close
 fon@!!: open
 function fon(){
 	var x = 0;
 	var y = 0;
 	var width = GAME_FIELD_WIDTH;
 	var height = GAME_FIELD_HEIGHT;
-	var img = 'fon02.png';
+	var img = 'images/fon03.png';
 	this.getPic = function(){
 		return img;
 	};
@@ -114,7 +262,7 @@ function invisible(inp){
 	var y = parseInt(inp[1]);
 	var width = parseInt(inp[2]);
 	var height = parseInt(inp[3]);
-	var img = 'yellowSmile01.png';
+	var img = '';
 	this.getPic = function(){
 		return img;
 	};

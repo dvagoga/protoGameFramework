@@ -44,9 +44,12 @@ setInterval(function(){
 function draw(c){
 	for (var i = 0; i < o.length; i++){
 		var img = new Image();
-		img.src = o[i].getPic();
-		var pos = o[i].getXY();
-		c.drawImage(img, pos[0], pos[1]);
+		var pic = o[i].getPic();
+		if (pic.length > 0){
+			img.src = pic;
+			var pos = o[i].getXY();
+			c.drawImage(img, pos[0], pos[1]);
+		};
 	};
 };
 
